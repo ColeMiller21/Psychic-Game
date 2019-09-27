@@ -1,50 +1,62 @@
-// array of all the letters in alphabet
+// letters that can be guessed
 var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-// the key pressed is logged and converted to uppercase
+// array of the users guess
+var guessedLetters = [];
+// win set to 0
+var win = 0;
+// loses set to 0 
+var lose = 0;
+// guess count set to 10
+var guesses = 10;
+// variables for each id in html
+var winText = document.getElementById("win-text");
+var loseText = document.getElementById("lose-text");
+var guessText = document.getElementById("guess-text");
+var guessLeft = document.getElementById("guess-left");
 
-// computerGuess is = to a random letter in the letters[array]
+// varaiable for the computer guess
 var computerGuess = letters[Math.floor(Math.random() * letters.length)];
 console.log(computerGuess);
-// to reset computer guess after. 
-var emptyArray = [];
-//win set to the class in html where counter will be
-var win = document.getElementById(".wins");
-//lose set to class in html where counter will be
-var lose = document.getElementById(".lose");
 
-//     // onkeyup alert when any letter key is pressed in array..... cannot figure out how to have any letter in the array
-// cause an alert with the letter that was pressed 
+// variable function to reset game
+var reset = function () {
+    guesses = 10;
+    guessedLetters = [];
+    computerGuess = letters[Math.floor(Math.random() * letters.length)];
+    console.log(computerGuess);
+}
+
+// function for when user presses a key
 document.onkeyup = function (event) {
-    var personGuess = event.key.toUpperCase();
+    var userGuess = event.key.toUpperCase();
+    console.log(userGuess);
 
-    alert(personGuess)
-
-
-
-    console.log("test");
-    //if key pressed is equal to the computerGuess then an alert will pop up saying correct guess, and the wins will increase
-    if (computerGuess === personGuess) {
-        win = 0;
-        win++;
-        console.log(win);
-        alert("You guessed correct, Good Job!")
-
-    }
-    // if guess is wrong, guess column goes down by 1
-    else if (computerGuess !== personGuess) {
-        var guess = document.getElementById(".guess")
-        guess = 10;
-        guess--;
-        alert("Guess again!")
-    }
-    // if guess is equal to 0 then lose column goes up by 1
-    else if (guess === 0) {
+    if (guesses === 0) {
         lose++;
+        alert("The computer guess was " + computerGuess + " try again!!!");
+        reset();
     }
 
-    // innerHTML does not work.... due to document.onkey??
-    document.getElementById(".wins").innerHTML = "Wins: " + win;
-    document.getElementById(".lose").innerHTML = "Losses: " + lose;
-    document.getElementById(".guess").innerHTML = "Guesses: " + guess;
 
+    else if (computerGuess === userGuess) {
+        win++;
+        guess = 10;
+        guessedLetters.push(userGuess);
+        alert("Good Job! You guessed correct");
+        computerGuess = letters[Math.floor(Math.random() * letters.length)];
+        reset();
+    }
+
+
+    else if (computerGuess !== userGuess) {
+        guesses--;
+        guessedLetters.push(userGuess);
+        alert("Guess again!");
+    }
+
+
+    winText.textContent = "Wins: " + win;
+    loseText.textContent = "Losses: " + lose;
+    guessText.textContent = "Guesses: " + guesses;
+    guessLeft.textContent = guessedLetters;
 };
