@@ -32,8 +32,8 @@ document.onkeyup = function (event) {
     console.log(userGuess);
 
     if (guesses === 0) {
-        lose++;
         alert("The computer guess was " + computerGuess + " try again!!!");
+        lose++;
         reset();
     }
 
